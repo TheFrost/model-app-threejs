@@ -1,0 +1,90 @@
+.slider
+  position relative
+
+  &__wrap
+    position relative
+    z-index 10
+
+  &__ctrl
+    display none
+
+  &.initialized
+    .slider
+      &__wrap
+        overflow hidden
+      &__item
+        position absolute
+        top 0
+        left 0
+
+        display none
+        width 100%
+        
+        animation 0.33s ease-in-out both
+
+        &.active
+          position relative
+          z-index: 10
+
+          display block
+
+        &.moving
+          display block
+
+        &.entry
+          &.prev
+            animation-name entry-prev
+          &.next
+            animation-name entry-next
+
+        &.leave
+          &.prev
+            animation-name leave-prev
+          &.next
+            animation-name leave-next
+
+
+/*transitions*/
+@keyframes entry-next
+  from
+    transform translate3d(100%, 0, 0)
+  to
+    transform translate3d(0, 0, 0)
+
+@keyframes entry-prev
+  from
+    transform translate3d(-100%, 0, 0)
+  to
+    transform translate3d(0, 0, 0)
+
+@keyframes leave-next
+  from
+    opacity 1
+    transform scale3d(1, 1, 1)
+    // transform translate3d(0, 0, 0)
+  to
+    opacity 0
+    transform scale3d(0.7, 0.7, 0.7)
+    // transform translate3d(-100%, 0, 0)
+
+@keyframes leave-prev
+  from
+    opacity 1
+    transform scale3d(1, 1, 1)
+    // transform translate3d(0, 0, 0)
+  to
+    opacity 0
+    transform scale3d(0.7, 0.7, 0.7)
+    // transform translate3d(100%, 0, 0)
+
+@keyframes stop
+	from
+		height: 20px
+	to
+		height: 0
+
+@keyframes play
+	from
+		height: 5px
+	to
+		height: 20px

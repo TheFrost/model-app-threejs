@@ -5,27 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>ThreeJS Module</title>
-
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100vw;
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    #webgl-app {
-      width: 100vw;
-      height: 100vh;
-
-      background-color: rgb(251, 251, 251);
-      background-color: red;
-    }
-  </style>
 </head>
 <body>
-  <div id="webgl-app"></div>
+	<canvas id="c"></canvas>
+
+	<div class="slider" id="modelSlider">
+		<div class="slider__wrap">
+			<div class="slider__item">
+				<div class="view__wrap">
+					<div class="view__scene"></div>
+				</div>
+			</div>
+			<div class="slider__item">
+				<div class="view__wrap">
+					<div class="view__scene"></div>
+				</div>
+			</div>
+			<div class="slider__item">
+				<div class="view__wrap">
+					<div class="view__scene"></div>
+				</div>
+			</div>
+			<div class="slider__item">
+				<div class="view__wrap">
+					<div class="view__scene"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 
   <script src="js/index.js"></script>
 </body>
