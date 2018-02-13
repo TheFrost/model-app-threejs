@@ -25,8 +25,8 @@ export default class ModelApp {
 			}
 		}
 
+		this.renderers = [];
 		this.scenes = [];
-		this.canvas = document.getElementById('c');
 
     this.init();
   }
@@ -43,11 +43,20 @@ export default class ModelApp {
 	}
 
 	setupRenderer() {
-    this.renderer = new THREE.WebGLRenderer({
-			alpha: true,
-			canvas:this.canvas
-		});
-		this.renderer.setPixelRatio( window.devicePixelRatio );
+		for (let i = 0; i < this.containers.length; i++) {
+			let renderer = new THREE.WebGLRenderer({
+				alpha: true
+			});
+			renderer.setSize(
+				this.containers[i].clientWidth,
+				this.containers[i].clientHeight,
+			);
+			renderer.setPixelRatio( window.devicePixelRatio );
+			
+			this.containers[i].appendChild(renderer.domElement);
+
+			this.renderers.push(renderer);
+		}
 	}
 
 	setupScenes() {
@@ -55,8 +64,8 @@ export default class ModelApp {
 
 			let scene = new THREE.Scene();
 
-			// scene container -----------------------------
-			scene.userData.view = this.containers[i];
+			// // scene container -----------------------------
+			// scene.userData.view = this.containers[i];
 
 			// scene camera --------------------------------
 			let camera = new THREE.PerspectiveCamera(
@@ -107,41 +116,11 @@ export default class ModelApp {
 	}
 	
 	render() {
-		this.updateSize();
-
-		this.renderer.setScissorTest( false );
-		this.renderer.clear();
-		this.renderer.setScissorTest( true );
-
-		this.scenes.forEach((scene) => {
-
-			// get its position relative to the page's viewport
-			let rect = scene.userData.view.getBoundingClientRect();
-
-			// check if it's offscreen. If so skip it
-			if (rect.bottom < 0 || rect.top > this.renderer.domElement.clientHeight ||
-					rect.right < 0 || rect.left > this.renderer.domElement.clientWidth) return; // it's off screen
-			
-			// set the viewport
-			let width 	= rect.right - rect.left;
-			let height 	= rect.bottom - rect.top;
-			let left 		= rect.left;
-			let top 		= rect.top;
-
-			this.renderer.setViewport(left, top, width, height);
-			this.renderer.setScissor(left, top, width, height);
+		this.scenes.forEach((scene, index) => {
 			
 			// render scene updated
-			this.renderer.render(scene, scene.userData.camera);
+			this.renderers[index].render(scene, scene.userData.camera);
 
 		});
-	}
-
-	updateSize() {
-		let width = this.canvas.clientWidth;
-		let height = this.canvas.clientHeight;
-		if ( this.canvas.width !== width || this.canvas.height != height ) {
-			this.renderer.setSize( width, height, false );
-		}
 	}
 }
